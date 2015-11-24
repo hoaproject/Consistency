@@ -1,0 +1,299 @@
+<?php
+
+/**
+ * Hoa
+ *
+ *
+ * @license
+ *
+ * New BSD License
+ *
+ * Copyright © 2007-2015, Hoa community. All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *     * Redistributions of source code must retain the above copyright
+ *       notice, this list of conditions and the following disclaimer.
+ *     * Redistributions in binary form must reproduce the above copyright
+ *       notice, this list of conditions and the following disclaimer in the
+ *       documentation and/or other materials provided with the distribution.
+ *     * Neither the name of the Hoa nor the names of its contributors may be
+ *       used to endorse or promote products derived from this software without
+ *       specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDERS AND CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ * POSSIBILITY OF SUCH DAMAGE.
+ */
+
+namespace Hoa\Consistency
+{
+
+/**
+ * Class Hoa\Consistency\Consistency.
+ *
+ * This class manages all classes, importations etc.
+ *
+ * @copyright  Copyright © 2007-2015 Hoa community
+ * @license    New BSD License
+ */
+class Consistency
+{
+    /**
+     * Check if an entity exists (class, interface, trait…).
+     *
+     * @param   string  $entityName    Entity name.
+     * @param   bool    $autoloader    Run autoloader if necessary.
+     * @return  bool
+     */
+    public static function entityExists($entityName, $autoloader = false)
+    {
+        return
+            class_exists($entityName, $autoloader) ||
+            interface_exists($entityName, false)   ||
+            trait_exists($entityName, false);
+    }
+
+    /**
+     * Get the shortest name for an entity.
+     *
+     * @param   string  $entityName    Entity name.
+     * @return  string
+     */
+    public static function getEntityShortestName($entityName)
+    {
+        $parts = explode('\\', $entityName);
+        $count = count($parts);
+
+        if (1 >= $count) {
+            return $entityName;
+        }
+
+        if ($parts[$count - 2] === $parts[$count - 1]) {
+            return implode('\\', array_slice($parts, 0, -1));
+        }
+
+        return $entityName;
+    }
+
+    /**
+     * Declare a flex entity (for nested library).
+     *
+     * @param   string  $entityName    Entity name.
+     * @return  bool
+     */
+    public static function flexEntity($entityName)
+    {
+        return class_alias(
+            $entityName,
+            static::getEntityShortestName($entityName)
+        );
+    }
+
+    /**
+     * Whether a word is reserved or not.
+     *
+     * @param   string  $word    Word.
+     * @return  void
+     */
+    public static function isKeyword($word)
+    {
+        static $_list = [
+            // PHP keywords.
+            '__halt_compiler',
+            'abstract',
+            'and',
+            'array',
+            'as',
+            'bool',
+            'break',
+            'callable',
+            'case',
+            'catch',
+            'class',
+            'clone',
+            'const',
+            'continue',
+            'declare',
+            'default',
+            'die',
+            'do',
+            'echo',
+            'else',
+            'elseif',
+            'empty',
+            'enddeclare',
+            'endfor',
+            'endforeach',
+            'endif',
+            'endswitch',
+            'endwhile',
+            'eval',
+            'exit',
+            'extends',
+            'false',
+            'final',
+            'float',
+            'for',
+            'foreach',
+            'function',
+            'global',
+            'goto',
+            'if',
+            'implements',
+            'include',
+            'include_once',
+            'instanceof',
+            'insteadof',
+            'int',
+            'interface',
+            'isset',
+            'list',
+            'mixed',
+            'namespace',
+            'new',
+            'null',
+            'numeric',
+            'object',
+            'or',
+            'print',
+            'private',
+            'protected',
+            'public',
+            'require',
+            'require_once',
+            'resource',
+            'return',
+            'static',
+            'string',
+            'switch',
+            'throw',
+            'trait',
+            'true',
+            'try',
+            'unset',
+            'use',
+            'var',
+            'while',
+            'xor',
+            'yield',
+
+            // Compile-time constants.
+            '__class__',
+            '__dir__',
+            '__file__',
+            '__function__',
+            '__line__',
+            '__method__',
+            '__namespace__',
+            '__trait__'
+        ];
+
+        return in_array(strtolower($word), $_list);
+    }
+
+    /**
+     * Whether an ID is a valid PHP identifier.
+     *
+     * @param   string  $id    ID.
+     * @return  bool
+     */
+    public static function isIdentifier($id)
+    {
+        return 0 !== preg_match(
+            '#^[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*$#',
+            $id
+        );
+    }
+}
+
+}
+
+namespace
+{
+
+/**
+ * Implement a fake `trait_exists` function.
+ *
+ * @param   string  $traitname    Traitname.
+ * @param   bool    $autoload     Autoload.
+ * @return  bool
+ */
+if (!function_exists('trait_exists')) {
+    function trait_exists($traitname, $autoload = true)
+    {
+        if (true == $autoload) {
+            class_exists($traitname, true);
+        }
+
+        return false;
+    }
+}
+
+if (70000 > PHP_VERSION_ID && false === interface_exists('Throwable', false)) {
+    /**
+     * Implement a fake Throwable class, introduced in PHP7.0.
+     */
+    interface Throwable
+    {
+        public function getMessage();
+        public function getCode();
+        public function getFile();
+        public function getLine();
+        public function getTrace();
+        public function getPrevious();
+        public function getTraceAsString();
+        public function __toString();
+    }
+}
+
+/**
+ * Curry.
+ * Example:
+ *     $c = curry('str_replace', …, …, 'foobar');
+ *     var_dump($c('foo', 'baz')); // bazbar
+ *     $c = curry('str_replace', 'foo', 'baz', …);
+ *     var_dump($c('foobarbaz')); // bazbarbaz
+ * Nested curries also work:
+ *     $c1 = curry('str_replace', …, …, 'foobar');
+ *     $c2 = curry($c1, 'foo', …);
+ *     var_dump($c2('baz')); // bazbar
+ * Obviously, as the first argument is a callable, we can combine this with
+ * \Hoa\Consistency\Xcallable ;-).
+ * The “…” character is the HORIZONTAL ELLIPSIS Unicode character (Unicode:
+ * 2026, UTF-8: E2 80 A6).
+ *
+ * @param   mixed  $callable    Callable (two parts).
+ * @param   ...    ...          Arguments.
+ * @return  \Closure
+ */
+if (!function_exists('curry')) {
+    function curry($callable)
+    {
+        $arguments = func_get_args();
+        array_shift($arguments);
+        $ii        = array_keys($arguments, …, true);
+
+        return function () use ($callable, $arguments, $ii) {
+            return call_user_func_array(
+                $callable,
+                array_replace($arguments, array_combine($ii, func_get_args()))
+            );
+        };
+    }
+}
+
+/**
+ * Flex entity.
+ */
+Hoa\Consistency\Consistency::flexEntity('Hoa\Consistency\Consistency');
+
+}
