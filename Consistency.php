@@ -231,7 +231,7 @@ namespace
 if (!function_exists('trait_exists')) {
     function trait_exists($traitname, $autoload = true)
     {
-        if (true == $autoload) {
+        if (true === $autoload) {
             class_exists($traitname, true);
         }
 
