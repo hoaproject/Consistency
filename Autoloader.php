@@ -114,6 +114,13 @@ class Autoloader
             $entityPrefix = rtrim($entityPrefix, '\\');
         }
 
+        if ($entity === Consistency::getEntityShortestName($entity) &&
+            false   !== $pos = strrpos($entity, '\\')) {
+            return $this->load(
+                $entity . '\\' . substr($entity, $pos + 1)
+            );
+        }
+
         return false;
     }
 
