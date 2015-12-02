@@ -40,7 +40,8 @@ namespace Hoa\Consistency
 /**
  * Class Hoa\Consistency\Consistency.
  *
- * This class manages all classes, importations etc.
+ * This class is a collection of tools to ensure foreward and backward
+ * compatibility.
  *
  * @copyright  Copyright © 2007-2015 Hoa community
  * @license    New BSD License
