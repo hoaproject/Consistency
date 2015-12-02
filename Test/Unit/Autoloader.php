@@ -37,6 +37,7 @@
 namespace Hoa\Consistency\Test\Unit;
 
 use Hoa\Consistency\Autoloader as SUT;
+use Hoa\Consistency as LUT;
 use Hoa\Test;
 
 /**
@@ -157,6 +158,26 @@ class Autoloader extends Test\Unit\Suite
             ->then
                 ->boolean($result)
                     ->isFalse();
+    }
+
+    public function case_load_flex_entity()
+    {
+        $this
+            ->given(
+                $autoloader = new \Mock\Hoa\Consistency\Autoloader(),
+                $autoloader->addNamespace('Foo\Bar\\', 'Source/Foo/Bar/'),
+                $this->calling($autoloader)->requireFile = function ($file) use (&$called) {
+                    $called = true;
+
+                    return 'Source/Foo/Bar/Baz/Qux/Qux.php' === $file;
+                }
+            )
+            ->when($result = $autoloader->load('Foo\Bar\Baz\Qux'))
+            ->then
+                ->string($result)
+                    ->isEqualTo('Source/Foo/Bar/Baz/Qux/Qux.php')
+                ->boolean($called)
+                    ->isTrue();
     }
 
     public function case_load_unknown_entity()
