@@ -222,3 +222,10 @@ class Autoloader
         return $class->newInstanceArgs($arguments);
     }
 }
+
+/**
+ * Autoloader.
+ */
+$autoloader = new Autoloader();
+$autoloader->addNamespace('Hoa', dirname(__DIR__));
+$autoloader->register();
