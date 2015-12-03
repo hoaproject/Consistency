@@ -32,7 +32,8 @@
     "autoload": {
         "psr-4": {
             "Hoa\\Consistency\\": "."
-        }
+        },
+        "files": ["Autoloader.php", "Consistency.php"]
     },
     "extra": {
         "branch-alias": {
