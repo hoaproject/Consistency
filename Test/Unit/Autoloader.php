@@ -278,23 +278,10 @@ class Autoloader extends Test\Unit\Suite
         $self = $this;
 
         $this
-            ->given(
-                $autoloader = new \Mock\Hoa\Consistency\Autoloader(),
-                $this->function->spl_autoload_register = function ($callable) use (&$called, $self, $autoloader) {
-                    $called = true;
-
-                    $self
-                        ->array($callable)
-                            ->isEqualTo([$autoloader, 'load']);
-
-                    return true;
-                }
-            )
+            ->given($autoloader = new SUT())
             ->when($result = $autoloader->register())
             ->then
                 ->boolean($result)
-                    ->isTrue()
-                ->boolean($called)
                     ->isTrue()
                 ->array($autoloader->getRegisteredAutoloaders())
                     ->isEqualTo(spl_autoload_functions());
