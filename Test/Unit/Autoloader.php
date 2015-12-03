@@ -156,8 +156,8 @@ class Autoloader extends Test\Unit\Suite
             ->given($autoloader = new SUT())
             ->when($result = $autoloader->load('Foo'))
             ->then
-                ->boolean($result)
-                    ->isFalse();
+                ->variable($result)
+                    ->isNull();
     }
 
     public function case_load_flex_entity()
@@ -165,17 +165,16 @@ class Autoloader extends Test\Unit\Suite
         $this
             ->given(
                 $autoloader = new \Mock\Hoa\Consistency\Autoloader(),
-                $autoloader->addNamespace('Foo\Bar\\', 'Source/Foo/Bar/'),
-                $this->calling($autoloader)->requireFile = function ($file) use (&$called) {
+                $this->function->spl_autoload_call = function ($entity) use (&$called) {
                     $called = true;
 
-                    return 'Source/Foo/Bar/Baz/Qux/Qux.php' === $file;
-                }
+                    return 'Foo\bar\Baz\Qux\Qux' === $entity;
+                },
+                $autoloader->addNamespace('Foo\Bar\\', 'Source/Foo/Bar/'),
+                $autoloader->register()
             )
             ->when($result = $autoloader->load('Foo\Bar\Baz\Qux'))
             ->then
-                ->string($result)
-                    ->isEqualTo('Source/Foo/Bar/Baz/Qux/Qux.php')
                 ->boolean($called)
                     ->isTrue();
     }
@@ -186,9 +185,7 @@ class Autoloader extends Test\Unit\Suite
             ->given(
                 $autoloader = new \Mock\Hoa\Consistency\Autoloader(),
                 $autoloader->addNamespace('Foo\Bar\\', 'Source/Foo/Bar/'),
-                $this->calling($autoloader)->requireFile = function ($file) {
-                    return false;
-                }
+                $this->function->spl_autoload_call = false
             )
             ->when($result = $autoloader->load('Foo\Bar\Baz\Qux'))
             ->then

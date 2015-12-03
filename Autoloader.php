@@ -116,12 +116,12 @@ class Autoloader
 
         if ($entity === Consistency::getEntityShortestName($entity) &&
             false   !== $pos = strrpos($entity, '\\')) {
-            return $this->load(
+            return spl_autoload_call(
                 $entity . '\\' . substr($entity, $pos + 1)
             );
         }
 
-        return false;
+        return null;
     }
 
     /**
