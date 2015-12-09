@@ -95,7 +95,8 @@ class Consistency
     {
         return class_alias(
             $entityName,
-            static::getEntityShortestName($entityName)
+            static::getEntityShortestName($entityName),
+            false
         );
     }
 
@@ -212,6 +213,62 @@ class Consistency
         return 0 !== preg_match(
             '#^[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*$#',
             $id
+        );
+    }
+
+    /**
+     * Register a register shutdown function.
+     * It may be analogous to a super static destructor.
+     *
+     * @param   callable  $callable    Callable.
+     * @return  bool
+     */
+    public static function registerShutdownFunction($callable)
+    {
+        return register_shutdown_function($callable);
+    }
+
+    /**
+     * Get PHP executable.
+     *
+     * @return  string
+     */
+    public static function getPHPBinary()
+    {
+        if (defined('PHP_BINARY')) {
+            return PHP_BINARY;
+        }
+
+        if (isset($_SERVER['_'])) {
+            return $_SERVER['_'];
+        }
+
+        foreach (['', '.exe'] as $extension) {
+            if (file_exists($_ = PHP_BINDIR . DS . 'php' . $extension)) {
+                return realpath($_);
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * Generate an Universal Unique Identifier (UUID).
+     *
+     * @return  string
+     */
+    public static function uuid()
+    {
+        return sprintf(
+            '%04x%04x-%04x-%04x-%04x-%04x%04x%04x',
+            mt_rand(0, 0xffff),
+            mt_rand(0, 0xffff),
+            mt_rand(0, 0xffff),
+            mt_rand(0, 0x0fff) | 0x4000,
+            mt_rand(0, 0x3fff) | 0x8000,
+            mt_rand(0, 0xffff),
+            mt_rand(0, 0xffff),
+            mt_rand(0, 0xffff)
         );
     }
 }

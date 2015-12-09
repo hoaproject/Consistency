@@ -119,54 +119,6 @@ class Consistency extends Test\Unit\Suite
                     ->isEqualTo('Foo');
     }
 
-    public function case_flex_entity()
-    {
-        $self = $this;
-
-        $this
-            ->given(
-                $this->function->class_alias = function ($name, $alias) use ($self, &$called) {
-                    $called = true;
-
-                    $self
-                        ->string($alias)
-                            ->isEqualTo(SUT::getEntityShortestName($name));
-
-                    return true;
-                }
-            )
-            ->when($result = SUT::flexEntity('Foo\Bar\Bar'))
-            ->then
-                ->boolean($result)
-                    ->isTrue()
-                ->boolean($called)
-                    ->isTrue();
-    }
-
-    public function case_flex_entity_fails()
-    {
-        $self = $this;
-
-        $this
-            ->given(
-                $this->function->class_alias = function ($name, $alias) use ($self, &$called) {
-                    $called = true;
-
-                    $self
-                        ->string($alias)
-                            ->isEqualTo(SUT::getEntityShortestName($name));
-
-                    return false;
-                }
-            )
-            ->when($result = SUT::flexEntity('Foo'))
-            ->then
-                ->boolean($result)
-                    ->isFalse()
-                ->boolean($called)
-                    ->isTrue();
-    }
-
     public function case_is_keyword()
     {
         $this
@@ -278,6 +230,94 @@ class Consistency extends Test\Unit\Suite
                         ->boolean(SUT::isIdentifier($identifier))
                             ->isTrue();
                 }
+            });
+    }
+
+    public function case_register_shutdown_function()
+    {
+        $self = $this;
+
+        $this
+            ->given(
+                $callable = function () { },
+                $this->function->register_shutdown_function = function ($_callable) use (&$called, $self, &$callable) {
+                    $called = true;
+
+                    $self
+                        ->variable($_callable)
+                            ->isEqualTo($callable);
+
+                    return true;
+                }
+            )
+            ->when($result = SUT::registerShutdownFunction($callable))
+            ->then
+                ->boolean($result)
+                    ->isTrue();
+    }
+
+    public function case_get_php_binary_with_constant()
+    {
+        $this
+            ->given($this->constant->PHP_BINARY = '/foo/php')
+            ->when($result = SUT::getPHPBinary())
+            ->then
+                ->string($result)
+                    ->isEqualTo('/foo/php');
+    }
+
+    public function case_get_php_binary_with_server()
+    {
+        $this
+            ->given(
+                $this->function->defined = false,
+                $_SERVER['_'] = '/bar/php'
+            )
+            ->when($result = SUT::getPHPBinary())
+            ->then
+                ->string($result)
+                    ->isEqualTo('/bar/php');
+    }
+
+    public function case_get_php_binary_with_bin_directory()
+    {
+        unset($_SERVER['_']);
+
+        $this
+            ->given(
+                $this->function->defined = false,
+                $this->function->file_exists = true,
+                $this->function->realpath = '/baz/php'
+            )
+            ->when($result = SUT::getPHPBinary())
+            ->then
+                ->string($result)
+                    ->isEqualTo('/baz/php');
+    }
+
+    public function case_uuid()
+    {
+        $this
+            ->given($this->function->mt_rand = 42)
+            ->when($result = SUT::uuid())
+            ->then
+                ->string($result)
+                    ->isEqualTo('002a002a-002a-402a-802a-002a002a002a');
+    }
+
+    public function case_uuid_all_differents()
+    {
+        $this
+            ->when(function () {
+                $uuids = [];
+
+                for ($i = 0; $i < 10000; ++$i) {
+                    $uuids[] = SUT::uuid();
+                }
+
+                $this
+                    ->integer(count($uuids))
+                        ->isEqualTo(count(array_unique($uuids)));
             });
     }
 }
