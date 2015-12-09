@@ -33,7 +33,7 @@
         "psr-4": {
             "Hoa\\Consistency\\": "."
         },
-        "files": ["Autoloader.php", "Consistency.php"]
+        "files": ["Prelude.php"]
     },
     "extra": {
         "branch-alias": {
