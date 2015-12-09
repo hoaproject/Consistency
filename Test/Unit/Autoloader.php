@@ -37,7 +37,6 @@
 namespace Hoa\Consistency\Test\Unit;
 
 use Hoa\Consistency\Autoloader as SUT;
-use Hoa\Consistency as LUT;
 use Hoa\Test;
 
 /**
@@ -204,7 +203,7 @@ class Autoloader extends Test\Unit\Suite
                 $constantName = 'HOA_TEST_' . uniqid(),
                 $filename     = 'hoa://Test/Vfs/Foo?type=file',
 
-                file_put_contents($filename, '<?php define("' . $constantName. '", "BAR");')
+                file_put_contents($filename, '<?php define("' . $constantName . '", "BAR");')
             )
             ->when($result = $autoloader->requireFile($filename))
             ->then
