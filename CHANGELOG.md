@@ -1,3 +1,9 @@
+# 1.16.01.11
+
+  * Quality: Drop PHP5.4. (Ivan Enderlin, 2016-01-11T09:15:26+01:00)
+  * Quality: Run devtools:cs. (Ivan Enderlin, 2016-01-09T08:58:31+01:00)
+  * Core: Remove `Hoa\Core`. (Ivan Enderlin, 2016-01-09T08:03:33+01:00)
+
 # 0.16.01.06
 
   * Prelude: Introduce the prelude/preamble! (Ivan Enderlin, 2015-12-09T08:34:16+01:00)
