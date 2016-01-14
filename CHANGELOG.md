@@ -1,3 +1,8 @@
+# 1.16.01.14
+
+  * Test: Write cases for flex entity in autoloader. (Ivan Enderlin, 2016-01-14T10:45:08+01:00)
+  * Autoloader: Restrict loads to mapped entities. (Ivan Enderlin, 2016-01-14T10:38:21+01:00)
+
 # 1.16.01.11
 
   * Quality: Drop PHP5.4. (Ivan Enderlin, 2016-01-11T09:15:26+01:00)
