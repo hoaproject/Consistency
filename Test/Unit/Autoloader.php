@@ -63,6 +63,8 @@ class Autoloader extends Test\Unit\Suite
                 $result = $autoloader->addNamespace($prefix, $baseDirectoryB)
             )
             ->then
+                ->boolean($autoloader->hasBaseDirectory($prefix))
+                    ->isTrue()
                 ->array($autoloader->getBaseDirectories($prefix))
                     ->isEqualTo([
                         $baseDirectoryB,
@@ -84,6 +86,8 @@ class Autoloader extends Test\Unit\Suite
                 $result = $autoloader->addNamespace($prefix, $baseDirectoryB)
             )
             ->then
+                ->boolean($autoloader->hasBaseDirectory($prefix))
+                    ->isTrue()
                 ->array($autoloader->getBaseDirectories($prefix))
                     ->isEqualTo([
                         $baseDirectoryA,
@@ -101,6 +105,8 @@ class Autoloader extends Test\Unit\Suite
             )
             ->when($result = $autoloader->addNamespace($prefix, $baseDirectory))
             ->then
+                ->boolean($autoloader->hasBaseDirectory('Foo\Bar\\'))
+                    ->isTrue()
                 ->array($autoloader->getBaseDirectories('Foo\Bar\\'))
                     ->isEqualTo([$baseDirectory]);
     }
@@ -115,6 +121,8 @@ class Autoloader extends Test\Unit\Suite
             )
             ->when($result = $autoloader->addNamespace($prefix, $baseDirectory))
             ->then
+                ->boolean($autoloader->hasBaseDirectory('Foo\Bar\\'))
+                    ->isTrue()
                 ->array($autoloader->getBaseDirectories('Foo\Bar\\'))
                     ->isEqualTo(['Source/Foo/Bar/']);
     }
@@ -129,6 +137,8 @@ class Autoloader extends Test\Unit\Suite
             )
             ->when($result = $autoloader->addNamespace($prefix, $baseDirectory))
             ->then
+                ->boolean($autoloader->hasBaseDirectory('Foo\Bar\\'))
+                    ->isTrue()
                 ->array($autoloader->getBaseDirectories('Foo\Bar\\'))
                     ->isEqualTo(['Source/Foo/Bar/']);
     }
@@ -156,6 +166,54 @@ class Autoloader extends Test\Unit\Suite
             ->when($result = $autoloader->load('Foo'))
             ->then
                 ->variable($result)
+                    ->isNull();
+    }
+
+    public function case_load_flex_entity()
+    {
+        $self = $this;
+
+        $this
+            ->given(
+                $autoloader = new \Mock\Hoa\Consistency\Autoloader(),
+                $autoloader->addNamespace('Foo\Bar\\', 'Source/Foo/'),
+                $this->calling($autoloader)->runAutoloaderStack = function ($entity) use ($self, &$called) {
+                    $called = true;
+                    $self
+                        ->string($entity)
+                            ->isEqualTo('Foo\Bar\Baz\Baz');
+
+                    return;
+                },
+                $autoloader->register()
+            )
+            ->when($result = $autoloader->load('Foo\Bar\Baz'))
+            ->then
+                ->variable($result)
+                    ->isNull()
+                ->boolean($called)
+                    ->isTrue();
+    }
+
+    public function case_load_unmapped_flex_entity()
+    {
+        $self = $this;
+
+        $this
+            ->given(
+                $autoloader = new \Mock\Hoa\Consistency\Autoloader(),
+                $this->calling($autoloader)->runAutoloaderStack = function ($entity) use ($self, &$called) {
+                    $called = true;
+
+                    return;
+                },
+                $autoloader->register()
+            )
+            ->when($result = $autoloader->load('Foo\Bar\Baz'))
+            ->then
+                ->variable($result)
+                    ->isNull()
+                ->variable($called)
                     ->isNull();
     }
 
@@ -188,6 +246,16 @@ class Autoloader extends Test\Unit\Suite
                 $this->function->file_exists = false
             )
             ->when($result = $autoloader->requireFile('/hoa/flatland'))
+            ->then
+                ->boolean($result)
+                    ->isFalse();
+    }
+
+    public function case_has_not_base_directory()
+    {
+        $this
+            ->given($autoloader = new SUT())
+            ->when($result = $autoloader->hasBaseDirectory('foo'))
             ->then
                 ->boolean($result)
                     ->isFalse();
