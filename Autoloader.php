@@ -96,27 +96,34 @@ class Autoloader
      */
     public function load($entity)
     {
-        $entityPrefix = $entity;
+        $entityPrefix     = $entity;
+        $hasBaseDirectory = false;
 
         while (false !== $pos = strrpos($entityPrefix, '\\')) {
-            $entityPrefix       = substr($entity, 0, $pos + 1);
-            $entitySuffix       = substr($entity, $pos + 1);
-            $entitySuffixAsPath = str_replace('\\', '/', $entitySuffix);
+            $currentEntityPrefix = substr($entity, 0, $pos + 1);
+            $entityPrefix        = rtrim($currentEntityPrefix, '\\');
+            $entitySuffix        = substr($entity, $pos + 1);
+            $entitySuffixAsPath  = str_replace('\\', '/', $entitySuffix);
 
-            foreach ($this->getBaseDirectories($entityPrefix) as $baseDirectory) {
+            if (false === $this->hasBaseDirectory($currentEntityPrefix)) {
+                continue;
+            }
+
+            $hasBaseDirectory = true;
+
+            foreach ($this->getBaseDirectories($currentEntityPrefix) as $baseDirectory) {
                 $file = $baseDirectory . $entitySuffixAsPath . '.php';
 
                 if (false !== $this->requireFile($file)) {
                     return $file;
                 }
             }
-
-            $entityPrefix = rtrim($entityPrefix, '\\');
         }
 
-        if ($entity === Consistency::getEntityShortestName($entity) &&
+        if (true    === $hasBaseDirectory &&
+            $entity === Consistency::getEntityShortestName($entity) &&
             false   !== $pos = strrpos($entity, '\\')) {
-            return spl_autoload_call(
+            return $this->runAutoloaderStack(
                 $entity . '\\' . substr($entity, $pos + 1)
             );
         }
@@ -142,6 +149,17 @@ class Autoloader
     }
 
     /**
+     * Check whether at least one base directory exists for a namespace prefix.
+     *
+     * @param   string  $namespacePrefix    Namespace prefix.
+     * @return  bool
+     */
+    public function hasBaseDirectory($namespacePrefix)
+    {
+        return isset($this->_namespacePrefixesToBaseDirectories[$namespacePrefix]);
+    }
+
+    /**
      * Get declared base directories for a namespace prefix.
      *
      * @param   string  $namespacePrefix    Namespace prefix.
@@ -149,7 +167,7 @@ class Autoloader
      */
     public function getBaseDirectories($namespacePrefix)
     {
-        if (false === isset($this->_namespacePrefixesToBaseDirectories[$namespacePrefix])) {
+        if (false === $this->hasBaseDirectory($namespacePrefix)) {
             return [];
         }
 
@@ -164,6 +182,17 @@ class Autoloader
     public static function getLoadedClasses()
     {
         return get_declared_classes();
+    }
+
+    /**
+     * Run the entire autoloader stack with a specific entity.
+     *
+     * @param   string  $entity    Entity name to load.
+     * @return  void
+     */
+    public function runAutoloaderStack($entity)
+    {
+        return spl_autoload_call($entity);
     }
 
     /**
