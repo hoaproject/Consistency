@@ -1,3 +1,8 @@
+# 1.16.03.03
+
+  * Add `STREAM_CRYPTO_METHOD_*` constants on PHP 5.5. (Metalaka, 2016-02-29T21:10:14+01:00)
+  * Composer: Fix `hoa/stream` dependency. (Ivan Enderlin, 2016-03-03T10:13:50+01:00)
+
 # 1.16.01.14
 
   * Test: Write cases for flex entity in autoloader. (Ivan Enderlin, 2016-01-14T10:45:08+01:00)
