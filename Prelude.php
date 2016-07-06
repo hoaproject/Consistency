@@ -70,7 +70,7 @@ $define('PHP_INT_MIN',    ~PHP_INT_MAX);
 $define('PHP_FLOAT_MIN',  (float) PHP_INT_MIN);
 $define('PHP_FLOAT_MAX',  (float) PHP_INT_MAX);
 $define('π',              M_PI);
-$define('void',           (unset) null);
+$define('nil',            (unset) null);
 $define('_public',        1);
 $define('_protected',     2);
 $define('_private',       4);

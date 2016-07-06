@@ -184,6 +184,7 @@ class Consistency
             'unset',
             'use',
             'var',
+            'void',
             'while',
             'xor',
             'yield',
