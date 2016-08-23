@@ -223,7 +223,7 @@ class Consistency extends Test\Unit\Suite
     public function case_is_identifier()
     {
         $this
-            ->given($_identifier = $this->realdom->regex('#^[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*$#'))
+            ->given($_identifier = $this->realdom->regex('#^[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x80-\xff]*$#'))
             ->when(function () use ($_identifier) {
                 foreach ($this->sampleMany($_identifier, 1000) as $identifier) {
                     $this

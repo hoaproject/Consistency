@@ -211,7 +211,7 @@ class Consistency
     public static function isIdentifier($id)
     {
         return 0 !== preg_match(
-            '#^[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*$#',
+            '#^[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x80-\xff]*$#',
             $id
         );
     }
