@@ -278,24 +278,6 @@ class Consistency
 namespace
 {
 
-if (!function_exists('trait_exists')) {
-    /**
-     * Implement a fake `trait_exists` function.
-     *
-     * @param   string  $traitname    Traitname.
-     * @param   bool    $autoload     Autoload.
-     * @return  bool
-     */
-    function trait_exists($traitname, $autoload = true)
-    {
-        if (true === $autoload) {
-            class_exists($traitname, true);
-        }
-
-        return false;
-    }
-}
-
 if (70000 > PHP_VERSION_ID && false === interface_exists('Throwable', false)) {
     /**
      * Implement a fake Throwable class, introduced in PHP7.0.
