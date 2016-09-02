@@ -198,6 +198,7 @@ class Consistency extends Test\Unit\Suite
                     'unset',
                     'use',
                     'var',
+                    'void',
                     'while',
                     'xor',
                     'yield',
