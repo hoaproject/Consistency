@@ -8,7 +8,7 @@
  *
  * New BSD License
  *
- * Copyright © 2007-2016, Hoa community. All rights reserved.
+ * Copyright © 2007-2017, Hoa community. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -46,7 +46,7 @@ use Hoa\Stream;
  * closure, they all have the same behaviour. This callable is an extension of
  * native PHP callable (aka callback) to integrate Hoa's structures.
  *
- * @copyright  Copyright © 2007-2016 Hoa community
+ * @copyright  Copyright © 2007-2017 Hoa community
  * @license    New BSD License
  */
 class Xcallable
@@ -81,7 +81,6 @@ class Xcallable
      *
      * @param   mixed   $call    First callable part.
      * @param   mixed   $able    Second callable part (if needed).
-     * @return  mixed
      */
     public function __construct($call, $able = '')
     {

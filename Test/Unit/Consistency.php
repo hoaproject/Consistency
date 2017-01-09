@@ -8,7 +8,7 @@
  *
  * New BSD License
  *
- * Copyright © 2007-2016, Hoa community. All rights reserved.
+ * Copyright © 2007-2017, Hoa community. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -44,7 +44,7 @@ use Hoa\Test;
  *
  * Test suite of the consistency class.
  *
- * @copyright  Copyright © 2007-2016 Hoa community
+ * @copyright  Copyright © 2007-2017 Hoa community
  * @license    New BSD License
  */
 class Consistency extends Test\Unit\Suite
@@ -240,7 +240,8 @@ class Consistency extends Test\Unit\Suite
 
         $this
             ->given(
-                $callable = function () { },
+                $callable = function () {
+                },
                 $this->function->register_shutdown_function = function ($_callable) use (&$called, $self, &$callable) {
                     $called = true;
 
