@@ -1,3 +1,12 @@
+# 1.17.01.10
+
+  * Quality: Happy new year! (Alexis von Glasow, 2017-01-09T21:38:10+01:00)
+  * Documentation: New `README.md` file. (Ivan Enderlin, 2016-10-19T16:27:31+02:00)
+  * Documentation: Fix `docs` and `source` links. (Ivan Enderlin, 2016-10-05T20:26:20+02:00)
+  * Documentation: Update `support` properties. (Ivan Enderlin, 2016-10-05T15:56:01+02:00)
+  * Consistency: `void` is a reserved keyword now. (Ivan Enderlin, 2016-09-02T11:06:18+02:00)
+  * Consistency: Remove `trait_exists` polyfill. (Ivan Enderlin, 2016-08-23T17:26:07+02:00)
+
 # 1.16.03.03
 
   * Add `STREAM_CRYPTO_METHOD_*` constants on PHP 5.5. (Metalaka, 2016-02-29T21:10:14+01:00)
