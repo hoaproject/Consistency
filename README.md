@@ -5,8 +5,8 @@
 ---
 
 <p align="center">
-  <a href="https://travis-ci.org/hoaproject/consistency"><img src="https://img.shields.io/travis/hoaproject/consistency/master.svg" alt="Build status" /></a>
-  <a href="https://coveralls.io/github/hoaproject/consistency?branch=master"><img src="https://img.shields.io/coveralls/hoaproject/consistency/master.svg" alt="Code coverage" /></a>
+  <a href="https://travis-ci.org/hoaproject/Consistency"><img src="https://img.shields.io/travis/hoaproject/Consistency/master.svg" alt="Build status" /></a>
+  <a href="https://coveralls.io/github/hoaproject/Consistency?branch=master"><img src="https://img.shields.io/coveralls/hoaproject/Consistency/master.svg" alt="Code coverage" /></a>
   <a href="https://packagist.org/packages/hoa/consistency"><img src="https://img.shields.io/packagist/dt/hoa/consistency.svg" alt="Packagist" /></a>
   <a href="https://hoa-project.net/LICENSE"><img src="https://img.shields.io/packagist/l/hoa/consistency.svg" alt="License" /></a>
 </p>
