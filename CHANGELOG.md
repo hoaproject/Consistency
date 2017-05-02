@@ -1,3 +1,8 @@
+# 1.17.05.02
+
+  * CI: Set up Travis. (Ivan Enderlin, 2017-03-08T09:52:17+01:00)
+  * Prelude: Remove the `(unset)` cast. (Ivan Enderlin, 2017-03-07T16:55:13+01:00)
+
 # 1.17.01.10
 
   * Quality: Happy new year! (Alexis von Glasow, 2017-01-09T21:38:10+01:00)
