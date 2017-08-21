@@ -40,6 +40,7 @@ namespace Hoa\Consistency\Test\Unit;
 
 use Hoa\Consistency\Exception as SUT;
 use Hoa\Test;
+use RuntimeException;
 
 /**
  * Class \Hoa\Consistency\Test\Unit\Exception.
@@ -50,12 +51,12 @@ use Hoa\Test;
  */
 class Exception extends Test\Unit\Suite
 {
-    public function case_hoa_exception(): void
+    public function case_runtime_exception(): void
     {
         $this
             ->when($result = new SUT('foo', 0))
             ->then
                 ->object($result)
-                    ->isInstanceOf('Hoa\Exception\Exception');
+                    ->isInstanceOf(RuntimeException::class);
     }
 }

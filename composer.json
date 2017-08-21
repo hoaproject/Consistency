@@ -24,8 +24,7 @@
         "source": "https://central.hoa-project.net/Resource/Library/Consistency"
     },
     "require": {
-        "php"          : ">=5.5.0",
-        "hoa/exception": "~1.0"
+        "php": ">=7.1",
     },
     "require-dev": {
         "hoa/stream": "~1.0",

@@ -41,7 +41,7 @@ if (false === defined('HOA')) {
 }
 
 if (false === defined('PHP_VERSION_ID') || PHP_VERSION_ID < 70100) {
-    throw new Exception(
+    throw new RuntimeException(
         'Hoa needs at least PHP 7.1 to work; you have ' . phpversion() . '.'
     );
 }
@@ -87,14 +87,10 @@ $define('WITH_COMPOSER', class_exists('Composer\Autoload\ClassLoader', false) ||
                           ('cli' === PHP_SAPI &&
                           file_exists(__DIR__ . DS . '..' . DS . '..' . DS . 'autoload.php')));
 
-/**
- * Alias of \Hoa\Consistency\Xcallable.
- *
- * @param   mixed   $call    First callable part.
- * @param   mixed   $able    Second callable part (if needed).
- * @return  mixed
- */
 if (!function_exists('xcallable')) {
+    /**
+    * Alias of `Hoa\Consistency\Xcallable`.
+    */
     function xcallable($call, $able = '')
     {
         if ($call instanceof Hoa\Consistency\Xcallable) {

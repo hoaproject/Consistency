@@ -38,15 +38,11 @@ declare(strict_types=1);
 
 namespace Hoa\Consistency;
 
-use Hoa\Exception as HoaException;
+use RuntimeException;
 
 /**
- * Class \Hoa\Consistency\Exception.
- *
- * Extending the \Hoa\Exception\Exception class.
- *
- * @license    New BSD License
+ * Extends the `RuntimeException` class.
  */
-class Exception extends HoaException
+class Exception extends RuntimeException
 {
 }

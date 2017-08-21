@@ -38,15 +38,16 @@ declare(strict_types=1);
 
 namespace Hoa\Consistency\Test\Unit;
 
+use Error;
+use Hoa\Consistency as LUT;
 use Hoa\Consistency\Xcallable as SUT;
 use Hoa\Test;
+use ReflectionClass;
+use ReflectionFunction;
+use ReflectionMethod;
 
 /**
- * Class \Hoa\Consistency\Test\Unit\Xcallable.
- *
  * Test suite of the xcallable class.
- *
- * @license    New BSD License
  */
 class Xcallable extends Test\Unit\Suite
 {
@@ -63,7 +64,7 @@ class Xcallable extends Test\Unit\Suite
                     ->isEqualTo('function#strtoupper')
                     ->isEqualTo($result . '')
                 ->object($reflection = $result->getReflection())
-                    ->isInstanceOf('ReflectionFunction')
+                    ->isInstanceOf(ReflectionFunction::class)
                 ->string($reflection->getName())
                     ->isEqualTo('strtoupper');
     }
@@ -81,7 +82,7 @@ class Xcallable extends Test\Unit\Suite
                     ->isEqualTo('class#' . __CLASS__ . '::strtoupper')
                     ->isEqualTo($result . '')
                 ->object($reflection = $result->getReflection())
-                    ->isInstanceOf('ReflectionMethod')
+                    ->isInstanceOf(ReflectionMethod::class)
                 ->string($reflection->getName())
                     ->isEqualTo('strtoupper');
     }
@@ -99,7 +100,7 @@ class Xcallable extends Test\Unit\Suite
                     ->isEqualTo('class#' . __CLASS__ . '::strtoupper')
                     ->isEqualTo($result . '')
                 ->object($reflection = $result->getReflection())
-                    ->isInstanceOf('ReflectionMethod')
+                    ->isInstanceOf(ReflectionMethod::class)
                 ->string($reflection->getName())
                     ->isEqualTo('strtoupper');
     }
@@ -121,7 +122,7 @@ class Xcallable extends Test\Unit\Suite
                     )
                     ->isEqualTo($result . '')
                 ->object($reflection = $result->getReflection())
-                    ->isInstanceOf('ReflectionMethod')
+                    ->isInstanceOf(ReflectionMethod::class)
                 ->string($reflection->getName())
                     ->isEqualTo('strtolower');
     }
@@ -143,7 +144,7 @@ class Xcallable extends Test\Unit\Suite
                     )
                     ->isEqualTo($result . '')
                 ->object($reflection = $result->getReflection())
-                    ->isInstanceOf('ReflectionMethod')
+                    ->isInstanceOf(ReflectionMethod::class)
                 ->string($reflection->getName())
                     ->isEqualTo('__invoke');
     }
@@ -166,7 +167,7 @@ class Xcallable extends Test\Unit\Suite
                     ->matches('/^closure\([^:]+\)$/')
                     ->isEqualTo($result . '')
                 ->object($reflection = $result->getReflection())
-                    ->isInstanceOf('ReflectionFunction')
+                    ->isInstanceOf(ReflectionFunction::class)
                 ->string($reflection->getName())
                     ->isEqualTo('Hoa\Consistency\Test\Unit\{closure}');
     }
@@ -184,7 +185,7 @@ class Xcallable extends Test\Unit\Suite
                     ->isEqualTo('class#' . __CLASS__ . '::strtoupper')
                     ->isEqualTo($result . '')
                 ->object($reflection = $result->getReflection())
-                    ->isInstanceOf('ReflectionMethod')
+                    ->isInstanceOf(ReflectionMethod::class)
                 ->string($reflection->getName())
                     ->isEqualTo('strtoupper');
     }
@@ -206,7 +207,7 @@ class Xcallable extends Test\Unit\Suite
                     )
                     ->isEqualTo($result . '')
                 ->object($reflection = $result->getReflection())
-                    ->isInstanceOf('ReflectionMethod')
+                    ->isInstanceOf(ReflectionMethod::class)
                 ->string($reflection->getName())
                     ->isEqualTo('strtolower');
     }
@@ -217,7 +218,7 @@ class Xcallable extends Test\Unit\Suite
             ->exception(function (): void {
                 new SUT(__CLASS__, 123);
             })
-                ->isInstanceOf('Hoa\Consistency\Exception');
+                ->isInstanceOf(LUT\Exception::class);
     }
 
     public function case_form_function_not_defined(): void
@@ -226,7 +227,7 @@ class Xcallable extends Test\Unit\Suite
             ->exception(function (): void {
                 new SUT('__hoa_test_undefined_function__');
             })
-                ->isInstanceOf('Hoa\Consistency\Exception');
+                ->isInstanceOf(Error::class);
     }
 
     public function case_form_able_cannot_be_deduced(): void
@@ -236,7 +237,7 @@ class Xcallable extends Test\Unit\Suite
             ->exception(function (): void {
                 new SUT($this);
             })
-                ->isInstanceOf('Hoa\Consistency\Exception');
+                ->isInstanceOf(LUT\Exception::class);
     }
 
     public function case_invoke(): void
