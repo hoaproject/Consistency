@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Hoa
  *
@@ -44,12 +46,11 @@ use Hoa\Test;
  *
  * Test suite of the exception.
  *
- * @copyright  Copyright © 2007-2017 Hoa community
  * @license    New BSD License
  */
 class Exception extends Test\Unit\Suite
 {
-    public function case_hoa_exception()
+    public function case_hoa_exception(): void
     {
         $this
             ->when($result = new SUT('foo', 0))

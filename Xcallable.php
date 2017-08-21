@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Hoa
  *
@@ -46,7 +48,6 @@ use Hoa\Stream;
  * closure, they all have the same behaviour. This callable is an extension of
  * native PHP callable (aka callback) to integrate Hoa's structures.
  *
- * @copyright  Copyright © 2007-2017 Hoa community
  * @license    New BSD License
  */
 class Xcallable
@@ -238,7 +239,7 @@ class Xcallable
      *
      * @return  string
      */
-    public function getHash()
+    public function getHash(): string
     {
         if (null !== $this->_hash) {
             return $this->_hash;
@@ -272,7 +273,7 @@ class Xcallable
      * @param   ...
      * @return  \Reflector
      */
-    public function getReflection()
+    public function getReflection(): \Reflector
     {
         $arguments = func_get_args();
         $valid     = $this->getValidCallback($arguments);
@@ -309,7 +310,7 @@ class Xcallable
      *
      * @return  string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->getHash();
     }

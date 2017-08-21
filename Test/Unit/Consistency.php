@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Hoa
  *
@@ -44,12 +46,11 @@ use Hoa\Test;
  *
  * Test suite of the consistency class.
  *
- * @copyright  Copyright © 2007-2017 Hoa community
  * @license    New BSD License
  */
 class Consistency extends Test\Unit\Suite
 {
-    protected function _entity_exists_with_xxx($class, $interface, $trait)
+    protected function _entity_exists_with_xxx($class, $interface, $trait): void
     {
         $this
             ->given(
@@ -78,7 +79,7 @@ class Consistency extends Test\Unit\Suite
         return $this->_entity_exists_with_xxx(false, false, true);
     }
 
-    public function case_entity_does_not_exists()
+    public function case_entity_does_not_exists(): void
     {
         $this
             ->given(
@@ -92,7 +93,7 @@ class Consistency extends Test\Unit\Suite
                     ->isFalse();
     }
 
-    public function case_get_entity_shortest_name()
+    public function case_get_entity_shortest_name(): void
     {
         $this
             ->when($result = SUT::getEntityShortestName('Foo\Bar\Bar'))
@@ -101,7 +102,7 @@ class Consistency extends Test\Unit\Suite
                     ->isEqualTo('Foo\Bar');
     }
 
-    public function case_get_entity_shortest_name_with_already_the_shortest()
+    public function case_get_entity_shortest_name_with_already_the_shortest(): void
     {
         $this
             ->when($result = SUT::getEntityShortestName('Foo\Bar'))
@@ -110,7 +111,7 @@ class Consistency extends Test\Unit\Suite
                     ->isEqualTo('Foo\Bar');
     }
 
-    public function case_get_entity_shortest_name_with_no_namespace()
+    public function case_get_entity_shortest_name_with_no_namespace(): void
     {
         $this
             ->when($result = SUT::getEntityShortestName('Foo'))
@@ -119,7 +120,7 @@ class Consistency extends Test\Unit\Suite
                     ->isEqualTo('Foo');
     }
 
-    public function case_is_keyword()
+    public function case_is_keyword(): void
     {
         $this
             ->given(
@@ -212,7 +213,7 @@ class Consistency extends Test\Unit\Suite
                     '__TRAIT__'
                 ]
             )
-            ->when(function () use ($keywords) {
+            ->when(function () use ($keywords): void {
                 foreach ($keywords as $keyword) {
                     $this
                         ->boolean(SUT::isKeyword($keyword))
@@ -221,11 +222,11 @@ class Consistency extends Test\Unit\Suite
             });
     }
 
-    public function case_is_identifier()
+    public function case_is_identifier(): void
     {
         $this
             ->given($_identifier = $this->realdom->regex('#^[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x80-\xff]*$#'))
-            ->when(function () use ($_identifier) {
+            ->when(function () use ($_identifier): void {
                 foreach ($this->sampleMany($_identifier, 1000) as $identifier) {
                     $this
                         ->boolean(SUT::isIdentifier($identifier))
@@ -234,13 +235,13 @@ class Consistency extends Test\Unit\Suite
             });
     }
 
-    public function case_register_shutdown_function()
+    public function case_register_shutdown_function(): void
     {
         $self = $this;
 
         $this
             ->given(
-                $callable = function () {
+                $callable = function (): void {
                 },
                 $this->function->register_shutdown_function = function ($_callable) use (&$called, $self, &$callable) {
                     $called = true;
@@ -254,11 +255,11 @@ class Consistency extends Test\Unit\Suite
             )
             ->when($result = SUT::registerShutdownFunction($callable))
             ->then
-                ->boolean($result)
-                    ->isTrue();
+                ->variable($result)
+                    ->isNull();
     }
 
-    public function case_get_php_binary_with_constant()
+    public function case_get_php_binary_with_constant(): void
     {
         $this
             ->given($this->constant->PHP_BINARY = '/foo/php')
@@ -268,7 +269,7 @@ class Consistency extends Test\Unit\Suite
                     ->isEqualTo('/foo/php');
     }
 
-    public function case_get_php_binary_with_server()
+    public function case_get_php_binary_with_server(): void
     {
         $this
             ->given(
@@ -281,7 +282,7 @@ class Consistency extends Test\Unit\Suite
                     ->isEqualTo('/bar/php');
     }
 
-    public function case_get_php_binary_with_bin_directory()
+    public function case_get_php_binary_with_bin_directory(): void
     {
         unset($_SERVER['_']);
 
@@ -297,7 +298,7 @@ class Consistency extends Test\Unit\Suite
                     ->isEqualTo('/baz/php');
     }
 
-    public function case_uuid()
+    public function case_uuid(): void
     {
         $this
             ->given($this->function->mt_rand = 42)
@@ -307,10 +308,10 @@ class Consistency extends Test\Unit\Suite
                     ->isEqualTo('002a002a-002a-402a-802a-002a002a002a');
     }
 
-    public function case_uuid_all_differents()
+    public function case_uuid_all_differents(): void
     {
         $this
-            ->when(function () {
+            ->when(function (): void {
                 $uuids = [];
 
                 for ($i = 0; $i < 10000; ++$i) {

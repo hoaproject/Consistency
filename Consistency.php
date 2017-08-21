@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Hoa
  *
@@ -43,7 +45,6 @@ namespace Hoa\Consistency
  * This class is a collection of tools to ensure foreward and backward
  * compatibility.
  *
- * @copyright  Copyright © 2007-2017 Hoa community
  * @license    New BSD License
  */
 class Consistency
@@ -55,11 +56,11 @@ class Consistency
      * @param   bool    $autoloader    Run autoloader if necessary.
      * @return  bool
      */
-    public static function entityExists($entityName, $autoloader = false)
+    public static function entityExists(string $entityName, bool $autoloader = false): bool
     {
         return
             class_exists($entityName, $autoloader) ||
-            interface_exists($entityName, false)   ||
+            interface_exists($entityName, false) ||
             trait_exists($entityName, false);
     }
 
@@ -69,7 +70,7 @@ class Consistency
      * @param   string  $entityName    Entity name.
      * @return  string
      */
-    public static function getEntityShortestName($entityName)
+    public static function getEntityShortestName(string $entityName): string
     {
         $parts = explode('\\', $entityName);
         $count = count($parts);
@@ -91,7 +92,7 @@ class Consistency
      * @param   string  $entityName    Entity name.
      * @return  bool
      */
-    public static function flexEntity($entityName)
+    public static function flexEntity(string $entityName): bool
     {
         return class_alias(
             $entityName,
@@ -106,7 +107,7 @@ class Consistency
      * @param   string  $word    Word.
      * @return  bool
      */
-    public static function isKeyword($word)
+    public static function isKeyword(string $word): bool
     {
         static $_list = [
             // PHP keywords.
@@ -209,7 +210,7 @@ class Consistency
      * @param   string  $id    ID.
      * @return  bool
      */
-    public static function isIdentifier($id)
+    public static function isIdentifier(string $id): bool
     {
         return 0 !== preg_match(
             '#^[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x80-\xff]*$#',
@@ -222,11 +223,11 @@ class Consistency
      * It may be analogous to a super static destructor.
      *
      * @param   callable  $callable    Callable.
-     * @return  bool
+     * @return  void
      */
-    public static function registerShutdownFunction($callable)
+    public static function registerShutdownFunction(callable $callable): void
     {
-        return register_shutdown_function($callable);
+        register_shutdown_function($callable);
     }
 
     /**
@@ -234,7 +235,7 @@ class Consistency
      *
      * @return  string
      */
-    public static function getPHPBinary()
+    public static function getPHPBinary(): string
     {
         if (defined('PHP_BINARY')) {
             return PHP_BINARY;
@@ -258,7 +259,7 @@ class Consistency
      *
      * @return  string
      */
-    public static function uuid()
+    public static function uuid(): string
     {
         return sprintf(
             '%04x%04x-%04x-%04x-%04x-%04x%04x%04x',
@@ -340,7 +341,7 @@ if (!function_exists('curry')) {
      * @param   ...    ...          Arguments.
      * @return  \Closure
      */
-    function curry($callable)
+    function curry($callable): Closure
     {
         $arguments = func_get_args();
         array_shift($arguments);

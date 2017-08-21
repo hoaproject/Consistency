@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Hoa
  *
@@ -37,34 +39,26 @@
 namespace Hoa\Consistency;
 
 /**
- * Class Hoa\Consistency\Autoloader.
- *
- * This class is a PSR-4 compliant autoloader.
- *
- * @copyright  Copyright © 2007-2017 Hoa community
- * @license    New BSD License
+ * An [autoloader](http://php.net/autoload) is responsible to load symbols at
+ * runtime. This autoloader is [PSR-4](http://www.php-fig.org/psr/psr-4/)
+ * compliant.
  */
 class Autoloader
 {
     /**
      * Namespace prefixes to base directories.
-     *
-     * @var array
      */
     protected $_namespacePrefixesToBaseDirectories = [];
 
-
-
     /**
-     * Add a base directory for a namespace prefix.
+     * Adds a base directory for a namespace prefix.
      *
      * @param   string  $prefix           Namespace prefix.
      * @param   string  $baseDirectory    Base directory for this prefix.
      * @param   bool    $prepend          Whether the prefix is prepended or
      *                                    appended to the prefix' stack.
-     * @return  void
      */
-    public function addNamespace($prefix, $baseDirectory, $prepend = false)
+    public function addNamespace(string $prefix, string $baseDirectory, bool $prepend = false): void
     {
         $prefix        = trim($prefix, '\\') . '\\';
         $baseDirectory = rtrim($baseDirectory, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
@@ -84,8 +78,6 @@ class Autoloader
                 $baseDirectory
             );
         }
-
-        return;
     }
 
     /**
@@ -94,7 +86,7 @@ class Autoloader
      * @param   string  $entity    Entity name to load.
      * @return  bool
      */
-    public function load($entity)
+    public function load(string $entity)
     {
         $entityPrefix     = $entity;
         $hasBaseDirectory = false;
@@ -120,9 +112,9 @@ class Autoloader
             }
         }
 
-        if (true    === $hasBaseDirectory &&
+        if (true === $hasBaseDirectory &&
             $entity === Consistency::getEntityShortestName($entity) &&
-            false   !== $pos = strrpos($entity, '\\')) {
+            false !== $pos = strrpos($entity, '\\')) {
             return $this->runAutoloaderStack(
                 $entity . '\\' . substr($entity, $pos + 1)
             );
@@ -132,12 +124,10 @@ class Autoloader
     }
 
     /**
-     * Require a file if exists.
-     *
-     * @param   string  $filename    File name.
-     * @return  bool
+     * Requires a file and returns `true` if it exists, otherwise returns
+     * `false`.
      */
-    public function requireFile($filename)
+    public function requireFile(string $filename): bool
     {
         if (false === file_exists($filename)) {
             return false;
@@ -154,7 +144,7 @@ class Autoloader
      * @param   string  $namespacePrefix    Namespace prefix.
      * @return  bool
      */
-    public function hasBaseDirectory($namespacePrefix)
+    public function hasBaseDirectory(string $namespacePrefix): bool
     {
         return isset($this->_namespacePrefixesToBaseDirectories[$namespacePrefix]);
     }
@@ -165,7 +155,7 @@ class Autoloader
      * @param   string  $namespacePrefix    Namespace prefix.
      * @return  array
      */
-    public function getBaseDirectories($namespacePrefix)
+    public function getBaseDirectories(string $namespacePrefix): array
     {
         if (false === $this->hasBaseDirectory($namespacePrefix)) {
             return [];
@@ -176,23 +166,18 @@ class Autoloader
 
     /**
      * Get loaded classes.
-     *
-     * @return  array
      */
-    public static function getLoadedClasses()
+    public static function getLoadedClasses(): array
     {
         return get_declared_classes();
     }
 
     /**
      * Run the entire autoloader stack with a specific entity.
-     *
-     * @param   string  $entity    Entity name to load.
-     * @return  void
      */
-    public function runAutoloaderStack($entity)
+    public function runAutoloaderStack(string $entity): void
     {
-        return spl_autoload_call($entity);
+        spl_autoload_call($entity);
     }
 
     /**
@@ -201,27 +186,33 @@ class Autoloader
      * @param   bool  $prepend    Prepend this autoloader to the stack or not.
      * @return  bool
      */
-    public function register($prepend = false)
+    public function register(bool $prepend = false): bool
     {
         return spl_autoload_register([$this, 'load'], true, $prepend);
     }
 
     /**
-     * Unregister the autoloader.
+     * Unregister the current instance of this autoloader.
      *
-     * @return  bool
+     * # Examples
+     *
+     * ```php
+     * $autoloader = new Hoa\Consistency\Autoloader();
+     * $autoloader->register();
+     *
+     * asser($autoloader->unregister());
+     * ```
      */
-    public function unregister()
+    public function unregister(): bool
     {
         return spl_autoload_unregister([$this, 'load']);
     }
 
     /**
-     * Get all registered autoloaders (not only from this library).
-     *
-     * @return  array
+     * Returns a collection of all the registered autoloader names, including
+     * those from other libraries.
      */
-    public function getRegisteredAutoloaders()
+    public function getRegisteredAutoloaders(): array
     {
         return spl_autoload_functions();
     }
@@ -230,11 +221,11 @@ class Autoloader
      * Dynamic new, a simple factory.
      * It loads and constructs a class, with provided arguments.
      *
-     * @param   bool     $classname    Classname.
+     * @param   string   $classname    Classname.
      * @param   array    $arguments    Arguments for the constructor.
      * @return  object
      */
-    public static function dnew($classname, array $arguments = [])
+    public static function dnew(string $classname, array $arguments = [])
     {
         $classname = ltrim($classname, '\\');
 

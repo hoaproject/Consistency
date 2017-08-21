@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Hoa
  *
@@ -44,12 +46,11 @@ use Hoa\Test;
  *
  * Test suite of the xcallable class.
  *
- * @copyright  Copyright © 2007-2017 Hoa community
  * @license    New BSD License
  */
 class Xcallable extends Test\Unit\Suite
 {
-    public function case_form_function()
+    public function case_form_function(): void
     {
         $this
             ->when($result = new SUT('strtoupper'))
@@ -67,7 +68,7 @@ class Xcallable extends Test\Unit\Suite
                     ->isEqualTo('strtoupper');
     }
 
-    public function case_form_class___method()
+    public function case_form_class___method(): void
     {
         $this
             ->when($result = new SUT(__CLASS__ . '::strtoupper'))
@@ -85,7 +86,7 @@ class Xcallable extends Test\Unit\Suite
                     ->isEqualTo('strtoupper');
     }
 
-    public function case_form_class_method()
+    public function case_form_class_method(): void
     {
         $this
             ->when($result = new SUT(__CLASS__, 'strtoupper'))
@@ -103,7 +104,7 @@ class Xcallable extends Test\Unit\Suite
                     ->isEqualTo('strtoupper');
     }
 
-    public function case_form_object_method()
+    public function case_form_object_method(): void
     {
         $this
             ->when($result = new SUT($this, 'strtolower'))
@@ -125,7 +126,7 @@ class Xcallable extends Test\Unit\Suite
                     ->isEqualTo('strtolower');
     }
 
-    public function case_form_object_invoke()
+    public function case_form_object_invoke(): void
     {
         $this
             ->when($result = new SUT($this))
@@ -147,7 +148,7 @@ class Xcallable extends Test\Unit\Suite
                     ->isEqualTo('__invoke');
     }
 
-    public function case_form_closure()
+    public function case_form_closure(): void
     {
         $this
             ->given(
@@ -170,7 +171,7 @@ class Xcallable extends Test\Unit\Suite
                     ->isEqualTo('Hoa\Consistency\Test\Unit\{closure}');
     }
 
-    public function case_form_array_of_class_method()
+    public function case_form_array_of_class_method(): void
     {
         $this
             ->when($result = new SUT([__CLASS__, 'strtoupper']))
@@ -188,7 +189,7 @@ class Xcallable extends Test\Unit\Suite
                     ->isEqualTo('strtoupper');
     }
 
-    public function case_form_array_of_object_method()
+    public function case_form_array_of_object_method(): void
     {
         $this
             ->when($result = new SUT([$this, 'strtolower']))
@@ -210,35 +211,35 @@ class Xcallable extends Test\Unit\Suite
                     ->isEqualTo('strtolower');
     }
 
-    public function case_form_able_not_a_string()
+    public function case_form_able_not_a_string(): void
     {
         $this
-            ->exception(function () {
+            ->exception(function (): void {
                 new SUT(__CLASS__, 123);
             })
                 ->isInstanceOf('Hoa\Consistency\Exception');
     }
 
-    public function case_form_function_not_defined()
+    public function case_form_function_not_defined(): void
     {
         $this
-            ->exception(function () {
+            ->exception(function (): void {
                 new SUT('__hoa_test_undefined_function__');
             })
                 ->isInstanceOf('Hoa\Consistency\Exception');
     }
 
-    public function case_form_able_cannot_be_deduced()
+    public function case_form_able_cannot_be_deduced(): void
     {
         $this
             ->given($this->function->method_exists = false)
-            ->exception(function () {
+            ->exception(function (): void {
                 new SUT($this);
             })
                 ->isInstanceOf('Hoa\Consistency\Exception');
     }
 
-    public function case_invoke()
+    public function case_invoke(): void
     {
         $this
             ->given(
@@ -254,7 +255,7 @@ class Xcallable extends Test\Unit\Suite
                     ->isEqualTo([7, [4.2], 'foo']);
     }
 
-    public function case_distribute_arguments()
+    public function case_distribute_arguments(): void
     {
         $this
             ->given(
@@ -270,7 +271,7 @@ class Xcallable extends Test\Unit\Suite
                     ->isEqualTo([7, [4.2], 'foo']);
     }
 
-    protected function _get_valid_callback_stream_xxx($argument, $method)
+    protected function _get_valid_callback_stream_xxx($argument, $method): void
     {
         $this
             ->given(

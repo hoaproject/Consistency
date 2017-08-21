@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Hoa
  *
@@ -38,9 +40,9 @@ if (false === defined('HOA')) {
     define('HOA', true);
 }
 
-if (false === defined('PHP_VERSION_ID') || PHP_VERSION_ID < 50400) {
+if (false === defined('PHP_VERSION_ID') || PHP_VERSION_ID < 70100) {
     throw new Exception(
-        'Hoa needs at least PHP5.4 to work; you have ' . phpversion() . '.'
+        'Hoa needs at least PHP 7.1 to work; you have ' . phpversion() . '.'
     );
 }
 
@@ -55,33 +57,33 @@ $define = function ($constantName, $constantValue, $case = false) {
     return false;
 };
 
-$define('SUCCEED',        true);
-$define('FAILED',         false);
-$define('…',              '__hoa_core_fill');
-$define('DS',             DIRECTORY_SEPARATOR);
-$define('PS',             PATH_SEPARATOR);
+$define('SUCCEED', true);
+$define('FAILED', false);
+$define('…', '__hoa_core_fill');
+$define('DS', DIRECTORY_SEPARATOR);
+$define('PS', PATH_SEPARATOR);
 $define('ROOT_SEPARATOR', ';');
-$define('RS',             ROOT_SEPARATOR);
-$define('CRLF',           "\r\n");
-$define('OS_WIN',         defined('PHP_WINDOWS_VERSION_PLATFORM'));
-$define('S_64_BITS',      PHP_INT_SIZE == 8);
-$define('S_32_BITS',      !S_64_BITS);
-$define('PHP_INT_MIN',    ~PHP_INT_MAX);
-$define('PHP_FLOAT_MIN',  (float) PHP_INT_MIN);
-$define('PHP_FLOAT_MAX',  (float) PHP_INT_MAX);
-$define('π',              M_PI);
-$define('nil',            null);
-$define('_public',        1);
-$define('_protected',     2);
-$define('_private',       4);
-$define('_static',        8);
-$define('_abstract',      16);
-$define('_pure',          32);
-$define('_final',         64);
-$define('_dynamic',       ~_static);
-$define('_concrete',      ~_abstract);
-$define('_overridable',   ~_final);
-$define('WITH_COMPOSER',  class_exists('Composer\Autoload\ClassLoader', false) ||
+$define('RS', ROOT_SEPARATOR);
+$define('CRLF', "\r\n");
+$define('OS_WIN', defined('PHP_WINDOWS_VERSION_PLATFORM'));
+$define('S_64_BITS', PHP_INT_SIZE == 8);
+$define('S_32_BITS', !S_64_BITS);
+$define('PHP_INT_MIN', ~PHP_INT_MAX);
+$define('PHP_FLOAT_MIN', (float) PHP_INT_MIN);
+$define('PHP_FLOAT_MAX', (float) PHP_INT_MAX);
+$define('π', M_PI);
+$define('nil', null);
+$define('_public', 1);
+$define('_protected', 2);
+$define('_private', 4);
+$define('_static', 8);
+$define('_abstract', 16);
+$define('_pure', 32);
+$define('_final', 64);
+$define('_dynamic', ~_static);
+$define('_concrete', ~_abstract);
+$define('_overridable', ~_final);
+$define('WITH_COMPOSER', class_exists('Composer\Autoload\ClassLoader', false) ||
                           ('cli' === PHP_SAPI &&
                           file_exists(__DIR__ . DS . '..' . DS . '..' . DS . 'autoload.php')));
 

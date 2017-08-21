@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Hoa
  *
@@ -40,16 +42,11 @@ use Hoa\Consistency\Autoloader as SUT;
 use Hoa\Test;
 
 /**
- * Class \Hoa\Consistency\Test\Unit\Autoloader.
- *
  * Test suite of the autoloader.
- *
- * @copyright  Copyright © 2007-2017 Hoa community
- * @license    New BSD License
  */
 class Autoloader extends Test\Unit\Suite
 {
-    public function case_add_namespace_prepend()
+    public function case_add_namespace_prepend(): void
     {
         $this
             ->given(
@@ -72,7 +69,7 @@ class Autoloader extends Test\Unit\Suite
                     ]);
     }
 
-    public function case_add_namespace_append()
+    public function case_add_namespace_append(): void
     {
         $this
             ->given(
@@ -95,7 +92,7 @@ class Autoloader extends Test\Unit\Suite
                     ]);
     }
 
-    public function case_add_namespace_with_invalid_prefix()
+    public function case_add_namespace_with_invalid_prefix(): void
     {
         $this
             ->given(
@@ -111,7 +108,7 @@ class Autoloader extends Test\Unit\Suite
                     ->isEqualTo([$baseDirectory]);
     }
 
-    public function case_add_namespace_with_invalid_base_directory()
+    public function case_add_namespace_with_invalid_base_directory(): void
     {
         $this
             ->given(
@@ -127,7 +124,7 @@ class Autoloader extends Test\Unit\Suite
                     ->isEqualTo(['Source/Foo/Bar/']);
     }
 
-    public function case_add_namespace_with_crazy_invalid_base_directory()
+    public function case_add_namespace_with_crazy_invalid_base_directory(): void
     {
         $this
             ->given(
@@ -143,7 +140,7 @@ class Autoloader extends Test\Unit\Suite
                     ->isEqualTo(['Source/Foo/Bar/']);
     }
 
-    public function case_load()
+    public function case_load(): void
     {
         $this
             ->given(
@@ -159,7 +156,7 @@ class Autoloader extends Test\Unit\Suite
                     ->isEqualTo('Source/Foo/Bar/Baz/Qux.php');
     }
 
-    public function case_load_invalid_entity()
+    public function case_load_invalid_entity(): void
     {
         $this
             ->given($autoloader = new SUT())
@@ -169,7 +166,7 @@ class Autoloader extends Test\Unit\Suite
                     ->isNull();
     }
 
-    public function case_load_flex_entity()
+    public function case_load_flex_entity(): void
     {
         $self = $this;
 
@@ -177,7 +174,7 @@ class Autoloader extends Test\Unit\Suite
             ->given(
                 $autoloader = new \Mock\Hoa\Consistency\Autoloader(),
                 $autoloader->addNamespace('Foo\Bar\\', 'Source/Foo/'),
-                $this->calling($autoloader)->runAutoloaderStack = function ($entity) use ($self, &$called) {
+                $this->calling($autoloader)->runAutoloaderStack = function ($entity) use ($self, &$called): void {
                     $called = true;
                     $self
                         ->string($entity)
@@ -195,14 +192,14 @@ class Autoloader extends Test\Unit\Suite
                     ->isTrue();
     }
 
-    public function case_load_unmapped_flex_entity()
+    public function case_load_unmapped_flex_entity(): void
     {
         $self = $this;
 
         $this
             ->given(
                 $autoloader = new \Mock\Hoa\Consistency\Autoloader(),
-                $this->calling($autoloader)->runAutoloaderStack = function ($entity) use ($self, &$called) {
+                $this->calling($autoloader)->runAutoloaderStack = function ($entity) use ($self, &$called): void {
                     $called = true;
 
                     return;
@@ -217,7 +214,7 @@ class Autoloader extends Test\Unit\Suite
                     ->isNull();
     }
 
-    public function case_require_existing_file()
+    public function case_require_existing_file(): void
     {
         $this
             ->given(
@@ -238,7 +235,7 @@ class Autoloader extends Test\Unit\Suite
                     ->isEqualTo('BAR');
     }
 
-    public function case_require_not_existing_file()
+    public function case_require_not_existing_file(): void
     {
         $this
             ->given(
@@ -251,7 +248,7 @@ class Autoloader extends Test\Unit\Suite
                     ->isFalse();
     }
 
-    public function case_has_not_base_directory()
+    public function case_has_not_base_directory(): void
     {
         $this
             ->given($autoloader = new SUT())
@@ -261,7 +258,7 @@ class Autoloader extends Test\Unit\Suite
                     ->isFalse();
     }
 
-    public function case_get_base_undeclared_namespace_prefix()
+    public function case_get_base_undeclared_namespace_prefix(): void
     {
         $this
             ->given($autoloader = new SUT())
@@ -271,7 +268,7 @@ class Autoloader extends Test\Unit\Suite
                     ->isEmpty();
     }
 
-    public function case_dnew()
+    public function case_dnew(): void
     {
         $this
             ->given($classname = 'Hoa\Consistency\Autoloader')
@@ -281,17 +278,17 @@ class Autoloader extends Test\Unit\Suite
                     ->isInstanceOf($classname);
     }
 
-    public function case_dnew_unknown_class()
+    public function case_dnew_unknown_class(): void
     {
         $this
             ->given($this->function->spl_autoload_call = null)
-            ->exception(function () {
+            ->exception(function (): void {
                 SUT::dnew('Foo');
             })
                 ->isInstanceOf('ReflectionException');
     }
 
-    public function case_get_loaded_classes()
+    public function case_get_loaded_classes(): void
     {
         $this
             ->given(
@@ -304,7 +301,7 @@ class Autoloader extends Test\Unit\Suite
                     ->isEqualTo($declaredClasses);
     }
 
-    public function case_register()
+    public function case_register(): void
     {
         $self = $this;
 
@@ -318,7 +315,7 @@ class Autoloader extends Test\Unit\Suite
                     ->isEqualTo(spl_autoload_functions());
     }
 
-    public function case_unregister()
+    public function case_unregister(): void
     {
         $this
             ->given(
