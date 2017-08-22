@@ -53,11 +53,11 @@ class Autoloader extends Test\Unit\Suite
                 $autoloader     = new SUT(),
                 $prefix         = 'Foo\Bar\\',
                 $baseDirectoryA = 'Source/Foo/Bar/',
-                $baseDirectoryB = 'Source/Foo/Bar/'
+                $baseDirectoryB = 'Source/Foo/Baz/'
             )
             ->when(
                 $autoloader->addNamespace($prefix, $baseDirectoryA),
-                $result = $autoloader->addNamespace($prefix, $baseDirectoryB)
+                $result = $autoloader->addNamespace($prefix, $baseDirectoryB, true)
             )
             ->then
                 ->boolean($autoloader->hasBaseDirectory($prefix))
@@ -76,7 +76,7 @@ class Autoloader extends Test\Unit\Suite
                 $autoloader     = new SUT(),
                 $prefix         = 'Foo\Bar\\',
                 $baseDirectoryA = 'Source/Foo/Bar/',
-                $baseDirectoryB = 'Source/Foo/Bar/'
+                $baseDirectoryB = 'Source/Foo/Baz/'
             )
             ->when(
                 $autoloader->addNamespace($prefix, $baseDirectoryA),
