@@ -41,7 +41,10 @@ namespace Hoa\Consistency;
 use RuntimeException;
 
 /**
- * Extends the `RuntimeException` class.
+ * `Hoa\Consistency` cannot use the `Hoa\Exception` library because it would
+ * create a cyclic reference. It is not a problem because only few methods or
+ * functions throw exceptions. In all cases, an exception from
+ * `Hoa\Consistency` is nothing more than a `RuntimeException`.
  */
 class Exception extends RuntimeException
 {
