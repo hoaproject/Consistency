@@ -322,24 +322,30 @@ if (50600 > PHP_VERSION_ID) {
 
 if (!function_exists('curry')) {
     /**
-     * Curry.
-     * Example:
-     *     $c = curry('str_replace', …, …, 'foobar');
-     *     var_dump($c('foo', 'baz')); // bazbar
-     *     $c = curry('str_replace', 'foo', 'baz', …);
-     *     var_dump($c('foobarbaz')); // bazbarbaz
-     * Nested curries also work:
-     *     $c1 = curry('str_replace', …, …, 'foobar');
-     *     $c2 = curry($c1, 'foo', …);
-     *     var_dump($c2('baz')); // bazbar
-     * Obviously, as the first argument is a callable, we can combine this with
-     * \Hoa\Consistency\Xcallable ;-).
-     * The “…” character is the HORIZONTAL ELLIPSIS Unicode character (Unicode:
-     * 2026, UTF-8: E2 80 A6).
+     * Curry a function with the “…” character (HORIZONTAL ELLIPSIS Unicode
+     * character [unicode: 2026, UTF-8: E2 80 A6]).
      *
-     * @param   mixed  $callable    Callable (two parts).
-     * @param   ...    ...          Arguments.
-     * @return  \Closure
+     * Obviously, because the first argument is a callable, it is possible to combien it with
+     * `Hoa\Consistency\Xcallable`.
+     *
+     * # Examples
+     *
+     * ```php
+     * $replaceInFoobar   = curry('str_replace', …, …, 'foobar');
+     * $replaceFooByBazIn = curry('str_replace', 'foo', 'baz', …);
+     *
+     * assert('bazbar'    === $replaceInFoobar('foo', 'baz'));
+     * assert('bazbarbaz' === $replaceFooByBazIn('foobarbaz'));
+     * ```
+     *
+     * Nested curries also work:
+     *
+     * ```php
+     * $replaceInFoobar = curry('str_replace', …, …, 'foobar');
+     * $replaceFooInFoobarBy = curry($replaceInFoobar, 'foo', …);
+     *
+     * assert('bazbar' === $replaceFooInFoobarBy('baz'));
+     * ```
      */
     function curry($callable): Closure
     {
