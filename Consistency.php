@@ -36,8 +36,7 @@ declare(strict_types=1);
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Hoa\Consistency
-{
+namespace Hoa\Consistency;
 
 /**
  * Class Hoa\Consistency\Consistency.
@@ -275,91 +274,42 @@ class Consistency
     }
 }
 
-}
-
-namespace
-{
-
-if (70000 > PHP_VERSION_ID && false === interface_exists('Throwable', false)) {
-    /**
-     * Implement a fake Throwable class, introduced in PHP7.0.
-     */
-    interface Throwable
-    {
-        public function getMessage();
-        public function getCode();
-        public function getFile();
-        public function getLine();
-        public function getTrace();
-        public function getPrevious();
-        public function getTraceAsString();
-        public function __toString();
-    }
-}
-
 /**
- * Define TLSv* constants, introduced in PHP 5.5.
+ * Curry a function with the “…” character (HORIZONTAL ELLIPSIS Unicode
+ * character [unicode: 2026, UTF-8: E2 80 A6]).
+ *
+ * Obviously, because the first argument is a callable, it is possible to combien it with
+ * `Hoa\Consistency\Xcallable`.
+ *
+ * # Examples
+ *
+ * ```php
+ * $replaceInFoobar   = curry('str_replace', …, …, 'foobar');
+ * $replaceFooByBazIn = curry('str_replace', 'foo', 'baz', …);
+ *
+ * assert('bazbar'    === $replaceInFoobar('foo', 'baz'));
+ * assert('bazbarbaz' === $replaceFooByBazIn('foobarbaz'));
+ * ```
+ *
+ * Nested curries also work:
+ *
+ * ```php
+ * $replaceInFoobar = curry('str_replace', …, …, 'foobar');
+ * $replaceFooInFoobarBy = curry($replaceInFoobar, 'foo', …);
+ *
+ * assert('bazbar' === $replaceFooInFoobarBy('baz'));
+ * ```
  */
-if (50600 > PHP_VERSION_ID) {
-    $define = function ($constantName, $constantValue, $case = false) {
-        if (!defined($constantName)) {
-            return define($constantName, $constantValue, $case);
-        }
+function curry(callable $callable, ...$arguments): Closure
+{
+    $ii = array_keys($arguments, …, true);
 
-        return false;
+    return function (...$subArguments) use ($callable, $arguments, $ii) {
+        return $callable(...array_replace($arguments, array_combine($ii, $subArguments)));
     };
-
-    $define('STREAM_CRYPTO_METHOD_TLSv1_0_SERVER', 8);
-    $define('STREAM_CRYPTO_METHOD_TLSv1_1_SERVER', 16);
-    $define('STREAM_CRYPTO_METHOD_TLSv1_2_SERVER', 32);
-    $define('STREAM_CRYPTO_METHOD_ANY_SERVER', 62);
-
-    $define('STREAM_CRYPTO_METHOD_TLSv1_0_CLIENT', 9);
-    $define('STREAM_CRYPTO_METHOD_TLSv1_1_CLIENT', 17);
-    $define('STREAM_CRYPTO_METHOD_TLSv1_2_CLIENT', 33);
-    $define('STREAM_CRYPTO_METHOD_ANY_CLIENT', 63);
-}
-
-if (!function_exists('curry')) {
-    /**
-     * Curry a function with the “…” character (HORIZONTAL ELLIPSIS Unicode
-     * character [unicode: 2026, UTF-8: E2 80 A6]).
-     *
-     * Obviously, because the first argument is a callable, it is possible to combien it with
-     * `Hoa\Consistency\Xcallable`.
-     *
-     * # Examples
-     *
-     * ```php
-     * $replaceInFoobar   = curry('str_replace', …, …, 'foobar');
-     * $replaceFooByBazIn = curry('str_replace', 'foo', 'baz', …);
-     *
-     * assert('bazbar'    === $replaceInFoobar('foo', 'baz'));
-     * assert('bazbarbaz' === $replaceFooByBazIn('foobarbaz'));
-     * ```
-     *
-     * Nested curries also work:
-     *
-     * ```php
-     * $replaceInFoobar = curry('str_replace', …, …, 'foobar');
-     * $replaceFooInFoobarBy = curry($replaceInFoobar, 'foo', …);
-     *
-     * assert('bazbar' === $replaceFooInFoobarBy('baz'));
-     * ```
-     */
-    function curry(callable $callable, ...$arguments): Closure
-    {
-        $ii = array_keys($arguments, …, true);
-
-        return function (...$subArguments) use ($callable, $arguments, $ii) {
-            return $callable(...array_replace($arguments, array_combine($ii, $subArguments)));
-        };
-    }
 }
 
 /**
  * Flex entity.
  */
-Hoa\Consistency\Consistency::flexEntity('Hoa\Consistency\Consistency');
-
-}
+Consistency::flexEntity(Consistency::class);
