@@ -347,17 +347,12 @@ if (!function_exists('curry')) {
      * assert('bazbar' === $replaceFooInFoobarBy('baz'));
      * ```
      */
-    function curry($callable): Closure
+    function curry(callable $callable, ...$arguments): Closure
     {
-        $arguments = func_get_args();
-        array_shift($arguments);
-        $ii        = array_keys($arguments, …, true);
+        $ii = array_keys($arguments, …, true);
 
-        return function () use ($callable, $arguments, $ii) {
-            return call_user_func_array(
-                $callable,
-                array_replace($arguments, array_combine($ii, func_get_args()))
-            );
+        return function (...$subArguments) use ($callable, $arguments, $ii) {
+            return $callable(...array_replace($arguments, array_combine($ii, $subArguments)));
         };
     }
 }
