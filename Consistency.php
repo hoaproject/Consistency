@@ -39,21 +39,23 @@ declare(strict_types=1);
 namespace Hoa\Consistency;
 
 /**
- * Class Hoa\Consistency\Consistency.
- *
- * This class is a collection of tools to ensure foreward and backward
- * compatibility.
- *
- * @license    New BSD License
+ * A collection of tools to ensure foreward and backward compatibility between
+ * different Hoa versions and PHP versions.
  */
 class Consistency
 {
     /**
-     * Check if an entity exists (class, interface, trait…).
+     * Returns `true` if an entity exists (a class, an interface, a trait…),
+     * otherwise returns `false`.
      *
-     * @param   string  $entityName    Entity name.
-     * @param   bool    $autoloader    Run autoloader if necessary.
-     * @return  bool
+     * By default, the autoloaders will not run if the entity does not exist.
+     *
+     * # Examples
+     *
+     * ```php
+     * assert(true  === Hoa\Consistency\Consistency::entityExists(Hoa\Consistency\Consistency::class));
+     * assert(false === Hoa\Consistency\Consistency::entityExists(FooBar::class));
+     * ```
      */
     public static function entityExists(string $entityName, bool $autoloader = false): bool
     {
@@ -64,10 +66,16 @@ class Consistency
     }
 
     /**
-     * Get the shortest name for an entity.
+     * An entity has a short name if the two last parts of its fully-qualified
+     * name are equal. Then the latest part can be removed.
      *
-     * @param   string  $entityName    Entity name.
-     * @return  string
+     * # Examples
+     *
+     * ```php
+     * assert('Foo\Bar'     === Hoa\Consistency\Consistency::getEntityShortestName('Foo\Bar\Bar'));
+     * assert('Foo\Bar\Baz' === Hoa\Consistency\Consistency::getEntityShortestName('Foo\Bar\Baz'));
+     * assert('Foo'         === Hoa\Consistency\Consistency::getEntityShortestName('Foo'));
+     * ```
      */
     public static function getEntityShortestName(string $entityName): string
     {
@@ -86,10 +94,18 @@ class Consistency
     }
 
     /**
-     * Declare a flex entity (for nested library).
+     * Declares a flexible entity.
      *
-     * @param   string  $entityName    Entity name.
-     * @return  bool
+     * A flexible entity can be referenced with 2 names: Its normal name, and
+     * its shortest name (see `getEntityShortestName`).
+     *
+     * # Examples
+     *
+     * ```php,ignore
+     * Hoa\Consistency\Consistency::flexEntity(Foo\Bar\Bar::class);
+     *
+     * // `new Foo\Bar()` will work!
+     * ```
      */
     public static function flexEntity(string $entityName): bool
     {
@@ -101,10 +117,15 @@ class Consistency
     }
 
     /**
-     * Whether a word is reserved or not.
+     * Returns `true` if the given word is a reserved keyword of PHP (based on
+     * the latest version), otherwise returns `false`.
      *
-     * @param   string  $word    Word.
-     * @return  bool
+     * # Examples
+     *
+     * ```php
+     * assert(true  === Hoa\Consistency\Consistency::isKeyword('else'));
+     * assert(false === Hoa\Consistency\Consistency::isKeyword('otherwise'));
+     * ```
      */
     public static function isKeyword(string $word): bool
     {
@@ -204,10 +225,15 @@ class Consistency
     }
 
     /**
-     * Whether an ID is a valid PHP identifier.
+     * Returns `true` if the given identifier is a valid PHP identifier (based on
+     * the latest version), otherwise returns `false`.
      *
-     * @param   string  $id    ID.
-     * @return  bool
+     * # Examples
+     *
+     * ```php
+     * assert(true  === Hoa\Consistency\Consistency::isIdentifier('hello'));
+     * assert(false === Hoa\Consistency\Consistency::isIdentifier('world!'));
+     * ```
      */
     public static function isIdentifier(string $id): bool
     {
@@ -218,11 +244,19 @@ class Consistency
     }
 
     /**
-     * Register a register shutdown function.
+     * Registers a [register shutdown function](http://php.net/register_shutdown_function).
+     *
      * It may be analogous to a super static destructor.
      *
-     * @param   callable  $callable    Callable.
-     * @return  void
+     * # Examples
+     *
+     * ```php
+     * Hoa\Consistency\Consistency::registerShutdownFunction(
+     *     function (): void {
+     *         echo 'Bye bye!', "\n";
+     *     }
+     * );
+     * ```
      */
     public static function registerShutdownFunction(callable $callable): void
     {
@@ -230,11 +264,10 @@ class Consistency
     }
 
     /**
-     * Get PHP executable.
-     *
-     * @return  string
+     * Returns the absolute path to the PHP binary, or `null` if the method is
+     * not able to find it.
      */
-    public static function getPHPBinary(): string
+    public static function getPHPBinary(): ?string
     {
         if (defined('PHP_BINARY')) {
             return PHP_BINARY;
@@ -254,9 +287,17 @@ class Consistency
     }
 
     /**
-     * Generate an Universal Unique Identifier (UUID).
+     * Generates a [Universally Unique
+     * Identifier](https://en.wikipedia.org/wiki/Universally_unique_identifier)
+     * (UUID).
      *
-     * @return  string
+     * # Examples
+     *
+     * ```php
+     * $uuid = Hoa\Consistency\Consistency::uuid();
+     *
+     * assert(preg_match('/[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}/', $uuid));
+     * ```
      */
     public static function uuid(): string
     {
