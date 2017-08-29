@@ -351,5 +351,5 @@ class Autoloader
  * Autoloader.
  */
 $autoloader = new Autoloader();
-$autoloader->addNamespace('Hoa', dirname(__DIR__));
+$autoloader->addNamespace('Hoa', dirname(__DIR__, 2));
 $autoloader->register();
