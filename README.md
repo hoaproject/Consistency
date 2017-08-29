@@ -35,7 +35,7 @@ your dependencies, you need to
 require [`hoa/consistency`](https://packagist.org/packages/hoa/consistency):
 
 ```sh
-$ composer require hoa/consistency '~1.0'
+$ composer require hoa/consistency '~2.0'
 ```
 
 For more installation procedures, please read [the Source
