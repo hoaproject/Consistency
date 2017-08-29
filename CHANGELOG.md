@@ -1,3 +1,20 @@
+# 2.17.08.29
+
+  * fix(autoloader) Take into the move to `Source`. (Ivan Enderlin, 2017-08-29T15:36:49+02:00)
+  * doc(xcallable) Rewrite. (Ivan Enderlin, 2017-08-29T15:36:25+02:00)
+  * chore(path) Move code into the `Source` directory. (Ivan Enderlin, 2017-08-29T15:26:24+02:00)
+  * doc(consistency) Rewrite and add doctests. (Ivan Enderlin, 2017-08-22T11:14:35+02:00)
+  * chore(php) Remove PHP 7.x implementations. (Ivan Enderlin, 2017-08-22T10:54:32+02:00)
+  * chore(php) Rewrite `curry` with new PHP features. (Ivan Enderlin, 2017-08-22T10:50:59+02:00)
+  * doc(consistency) Rewrite the doc. of `curry`. (Ivan Enderlin, 2017-08-22T10:50:27+02:00)
+  * doc(exception) Rewrite. (Ivan Enderlin, 2017-08-22T10:39:46+02:00)
+  * doc(autoloader) Rewrite and add doctests. (Ivan Enderlin, 2017-08-22T10:28:31+02:00)
+  * test(unit) Fix `case_add_namespace_prepend`. (Ivan Enderlin, 2017-08-22T09:43:37+02:00)
+  * chore(composer) Anticipate future BC breaks. (Ivan Enderlin, 2017-08-21T11:04:35+02:00)
+  * chore(php) Drop dependency to `hoa/exception`. (Ivan Enderlin, 2017-08-21T11:04:06+02:00)
+  * chore(php) Migrate to PHP 7.1. (Ivan Enderlin, 2017-08-21T10:54:57+02:00)
+  * chore(ci) Drop HHVM support. (Grummfy, 2017-07-06T20:34:54+02:00)
+
 # 1.17.05.02
 
   * CI: Set up Travis. (Ivan Enderlin, 2017-03-08T09:52:17+01:00)
