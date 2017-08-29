@@ -158,10 +158,7 @@ class Xcallable
     }
 
     /**
-     * Call the callable.
-     *
-     * @param   ...
-     * @return  mixed
+     * Calls the callable.
      */
     public function __invoke(...$arguments)
     {
@@ -171,10 +168,7 @@ class Xcallable
     }
 
     /**
-     * Distribute arguments according to an array.
-     *
-     * @param   array  $arguments    Arguments.
-     * @return  mixed
+     * Distributes arguments according to an array.
      */
     public function distributeArguments(array $arguments)
     {
@@ -182,11 +176,7 @@ class Xcallable
     }
 
     /**
-     * Get a valid callback in the PHP meaning.
-     *
-     * @param   array   &$arguments    Arguments (could determine method on an
-     *                                 object if not precised).
-     * @return  mixed
+     * Returns a valid PHP callback.
      */
     public function getValidCallback(array &$arguments = [])
     {
@@ -240,14 +230,13 @@ class Xcallable
     }
 
     /**
-     * Get hash.
-     * Will produce:
-     *     * function#…;
-     *     * class#…::…;
-     *     * object(…)#…::…;
-     *     * closure(…).
+     * Computes the hash of this callable.
      *
-     * @return  string
+     * Will produce:
+     *     * `function#…`,
+     *     * `class#…::…`,
+     *     * `object(…)#…::…`,
+     *     * `closure(…)`.
      */
     public function getHash(): string
     {
@@ -278,7 +267,7 @@ class Xcallable
     }
 
     /**
-     * Get appropriated reflection instance.
+     * Returns the appropriated reflection instance.
      */
     public function getReflection(...$arguments): Reflector
     {
@@ -312,9 +301,7 @@ class Xcallable
     }
 
     /**
-     * Return the hash.
-     *
-     * @return  string
+     * The string representation of a callable is its hash.
      */
     public function __toString(): string
     {
