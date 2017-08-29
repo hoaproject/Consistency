@@ -24,7 +24,7 @@
         "source": "https://central.hoa-project.net/Resource/Library/Consistency"
     },
     "require": {
-        "php": ">=7.1",
+        "php": ">=7.1"
     },
     "require-dev": {
         "hoa/stream": "~2.0",
@@ -32,9 +32,9 @@
     },
     "autoload": {
         "psr-4": {
-            "Hoa\\Consistency\\": "."
+            "Hoa\\Consistency\\": "Source"
         },
-        "files": ["Prelude.php"]
+        "files": ["Source/Prelude.php"]
     },
     "extra": {
         "branch-alias": {
