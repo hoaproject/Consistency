@@ -319,7 +319,7 @@ class Consistency
  * Curry a function with the “…” character (HORIZONTAL ELLIPSIS Unicode
  * character [unicode: 2026, UTF-8: E2 80 A6]).
  *
- * Obviously, because the first argument is a callable, it is possible to combien it with
+ * Obviously, because the first argument is a callable, it is possible to combine it with
  * `Hoa\Consistency\Xcallable`.
  *
  * # Examples
