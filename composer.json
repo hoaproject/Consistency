@@ -27,8 +27,8 @@
         "php": ">=7.1"
     },
     "require-dev": {
-        "hoa/stream": "~2.0",
-        "hoa/test"  : "~3.0"
+        "hoa/stream": "dev-master",
+        "hoa/test"  : "dev-master"
     },
     "autoload": {
         "psr-4": {
