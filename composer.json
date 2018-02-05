@@ -32,7 +32,8 @@
     },
     "autoload": {
         "psr-4": {
-            "Hoa\\Consistency\\": "Source"
+            "Hoa\\Consistency\\"      : "Source",
+            "Hoa\\Consistency\\Test\\": "Test"
         },
         "files": ["Source/Prelude.php"]
     },
