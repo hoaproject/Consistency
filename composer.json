@@ -41,5 +41,8 @@
         "branch-alias": {
             "dev-master": "2.x-dev"
         }
+    },
+    "suggest": {
+        "hoa/devtools": "To polish the integration of Hoa inside your IDE, consider installing `hoa/devtools`."
     }
 }
